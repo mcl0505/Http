@@ -42,9 +42,9 @@ class NetConfig private constructor(builder: Builder) {
         /**
          * token
          */
-        private var mToken: String = ""
+        private var mToken: String? = ""
 
-        fun getToken(): String = mToken
+        fun getToken(): String = if (mToken == null) "" else mToken!!
 
         /**
          * tokenKey
@@ -99,7 +99,7 @@ class NetConfig private constructor(builder: Builder) {
     open class Builder {
         internal var baseUrl: String = ""
         internal var defaultTimeout: Int = 6_000
-        internal var mToken: String = ""
+        internal var mToken: String? = ""
         internal var mTokenKey: String = "token"
         internal var interceptors = ArrayList<Interceptor>()
         internal var networkInterceptors = ArrayList<Interceptor>()
@@ -115,7 +115,7 @@ class NetConfig private constructor(builder: Builder) {
             this.defaultTimeout = defaultTimeout
         }
 
-        open fun setToken(token: String): Builder = apply {
+        open fun setToken(token: String?=null): Builder = apply {
             this.mToken = token
         }
 
