@@ -1,7 +1,8 @@
 package com.mcl.net.util;
 
 import android.util.Log;
-import com.mcl.net.config.NetConfig;
+
+import com.mcl.net.config.NetBase;
 
 
 /**
@@ -20,7 +21,7 @@ public class HttpLog {
 	private static final String LEFT_BORDER    = "║ ";
 	private static final String BOTTOM_BORDER  = "╚═══════════════════════════════════════════════════════════════════════════════════════════════════";
 	private static HttpLog log;
-	public static boolean isDebug = NetConfig.Companion.isLog();
+	public static boolean isDebug = NetBase.INSTANCE.isLog();
 	private HttpLog() {}
 
 	/**

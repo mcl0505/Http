@@ -2,7 +2,7 @@ package com.mcl.net.http;
 
 import android.util.Log;
 
-import com.mcl.net.config.NetConfig;
+import com.mcl.net.config.NetBase;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -31,9 +31,9 @@ public class HttpTokenInterceptor implements Interceptor {
     public Response intercept(Interceptor.Chain chain) throws IOException {
 
         //  配置请求头
-        String accessToken = NetConfig.Companion.getTokenKey();
+        String accessToken = NetBase.INSTANCE.getMTokenKey();
         String tokenType = "tokenType";
-        String token = NetConfig.Companion.getToken();
+        String token = NetBase.INSTANCE.getMToken();
         Request request = chain.request().newBuilder()
                 .header(accessToken, token)
                 .header("server","nginx/1.15.11")

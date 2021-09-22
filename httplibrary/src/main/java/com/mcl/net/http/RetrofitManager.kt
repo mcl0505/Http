@@ -1,6 +1,6 @@
 package com.mcl.net.http
 
-import com.mcl.net.config.NetConfig
+import com.mcl.net.config.NetBase
 import com.mcl.net.util.SSLContextUtil
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
@@ -36,7 +36,7 @@ class RetrofitManager {
     private val logger: HttpLoggingInterceptor
         get() {
             val loggingInterceptor = HttpLoggingInterceptor()
-            if (NetConfig.isLog()) {
+            if (NetBase.isLog) {
                 loggingInterceptor.apply { level = HttpLoggingInterceptor.Level.BODY }
             }else{
                 loggingInterceptor.apply { level = HttpLoggingInterceptor.Level.BASIC }
@@ -49,23 +49,23 @@ class RetrofitManager {
         // 添加请求拦截器
         okHttpBuilder.addInterceptor(HttpTokenInterceptor())
         // 添加配置增加拦截器
-        val interceptors = NetConfig.getInterceptors()
+        val interceptors = NetBase.interceptors
         if (interceptors.isNotEmpty()) {
             interceptors.forEach { okHttpBuilder.addInterceptor(it) }
         }
         // 添加网络拦截器
-        val networkInterceptors = NetConfig.getNetworkInterceptors()
+        val networkInterceptors = NetBase.networkInterceptors
         if (networkInterceptors.isNotEmpty()) {
             networkInterceptors.forEach { okHttpBuilder.addInterceptor(it) }
         }
 
-        okHttpBuilder.connectTimeout(NetConfig.getDefaultTimeout().toLong(), TimeUnit.SECONDS)
-        okHttpBuilder.readTimeout(NetConfig.getDefaultTimeout().toLong(), TimeUnit.SECONDS)
-        okHttpBuilder.writeTimeout(NetConfig.getDefaultTimeout().toLong(), TimeUnit.SECONDS)
+        okHttpBuilder.connectTimeout(NetBase.defaultTimeout.toLong(), TimeUnit.SECONDS)
+        okHttpBuilder.readTimeout(NetBase.defaultTimeout.toLong(), TimeUnit.SECONDS)
+        okHttpBuilder.writeTimeout(NetBase.defaultTimeout.toLong(), TimeUnit.SECONDS)
         okHttpBuilder.retryOnConnectionFailure(true)
 
         // 判断是否启用 https
-        if (NetConfig.isEnableHttps()) {
+        if (NetBase.enableHttps) {
             //给client的builder添加了增加可以忽略SSL
             val sslParams = SSLContextUtil.getSslSocketFactory()
             okHttpBuilder.sslSocketFactory(sslParams.sSLSocketFactory!!, sslParams.trustManager!!)
@@ -75,7 +75,7 @@ class RetrofitManager {
         val client = okHttpBuilder.build()
 
         retrofit = Retrofit.Builder()
-            .baseUrl(NetConfig.getBaseUrl())
+            .baseUrl(NetBase.baseUrl)
             .client(client)
             .addConverterFactory(MoshiConverterFactory.create(getMoshi()))
             .build()
