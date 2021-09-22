@@ -1,11 +1,3 @@
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        jcenter() { url 'https://maven.aliyun.com/repository/public' }
-        maven {url "https://jitpack.io"}
-    }
-}
 rootProject.name = "HttpDemo"
 include ':app'
 include ':httplibrary'
