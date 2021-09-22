@@ -12,10 +12,10 @@ import com.mcl.net.config.NetConfig
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        val config = NetConfig.Builder()
-            .setBaseUrl("http://192.168.2.62:8080/app/")
-            .isLog(true)
-            .build()
-        config.initContext(this)
+//        val config = NetConfig.Builder()
+//            .setBaseUrl("http://192.168.2.62:8080/app/")
+//            .isLog(true)
+//            .build()
+//        config.initContext(this)
     }
 }
